@@ -1,4 +1,5 @@
 -cp src
+-cp ../../lib
 -swf bin/PixelWorm.swf
 -swf-header 512:680:30:FFFFFF
 -swf-version 10.1

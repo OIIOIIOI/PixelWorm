@@ -1,5 +1,7 @@
 package ;
 
+import com.m.geom.IntPoint;
+import com.m.Random;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.Sprite;
@@ -7,8 +9,6 @@ import flash.events.Event;
 import flash.events.MouseEvent;
 import haxe.Timer;
 import mt.deepnight.Color;
-import mt.gx.MathEx;
-import mt.Rand;
 
 /**
  * ...
@@ -17,7 +17,7 @@ import mt.Rand;
 
 class Game extends Sprite {
 	
-	static var R:Rand;
+	static var R:Random;
 	static var DIRS:Array<IntPoint>;
 	
 	static var STEP:Int = 2;
@@ -40,7 +40,7 @@ class Game extends Sprite {
 	public function new () {
 		super();
 		
-		R = new Rand(6543210);
+		R = new Random(6543210);
 		
 		DIRS = new Array<IntPoint>();
 		DIRS.push(new IntPoint(0, 1));
@@ -148,19 +148,4 @@ class Game extends Sprite {
 		}
 	}
 	
-}
-
-class IntPoint {
-	public var x:Int;
-	public var y:Int;
-	public function new (x:Int = 0, y:Int = 0) {
-		this.x = x;
-		this.y = y;
-	}
-	public function clone () :IntPoint {
-		return new IntPoint(x, y);
-	}
-	public function toString () {
-		return "{x:" + x + ", y:" + y + "}";
-	}
 }
