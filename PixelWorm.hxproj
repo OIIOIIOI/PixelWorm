@@ -5,9 +5,9 @@
     <movie outputType="Application" />
     <movie input="" />
     <movie path="bin\PixelWorm.swf" />
-    <movie fps="30" />
+    <movie fps="60" />
     <movie width="512" />
-    <movie height="680" />
+    <movie height="512" />
     <movie version="10" />
     <movie minorVersion="1" />
     <movie platform="Flash Player" />

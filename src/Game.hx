@@ -22,8 +22,9 @@ class Game extends Sprite {
 	
 	static var STEP:Int = 2;
 	static var SPEED:Int = 10;
-	static var SINGLE_PATH:Bool = true;
+	static var SINGLE_PATH:Bool = false;
 	static var START_AT_CENTER:Bool = false;
+	static var SHOW_POINTS:Bool = false;
 	
 	static var GROUND_COLOR:UInt = 0x2C4152;
 	static var START_COLOR:UInt = 0xFFFFFF;
@@ -32,8 +33,6 @@ class Game extends Sprite {
 	static var BRANCH_COLOR:UInt = 0x8CA8C4;
 	
 	var map:BitmapData;
-	var palette:BitmapData;
-	var paletteIndex:Int;
 	var from:IntPoint;
 	var history:Array<IntPoint>;
 	
@@ -51,16 +50,8 @@ class Game extends Sprite {
 		map = new BitmapData(64, 64, false, GROUND_COLOR);
 		var bm = new Bitmap(map);
 		bm.scaleX = bm.scaleY = 8;
-		addChild(bm);
+		this.addChild(bm);
 		this.addEventListener(MouseEvent.CLICK, eventHandler);
-		
-		palette = new BitmapData(64, 20, false, GROUND_COLOR);
-		bm = new Bitmap(palette);
-		bm.scaleX = bm.scaleY = 8;
-		bm.y = 65 * 8;
-		addChild(bm);
-		
-		paletteIndex = 0;
 		
 		history = new Array<IntPoint>();
 		
@@ -77,9 +68,6 @@ class Game extends Sprite {
 	function start () {
 		// clear map
 		map.fillRect(map.rect, GROUND_COLOR);
-		// clear palette
-		palette.fillRect(palette.rect, GROUND_COLOR);
-		paletteIndex = 0;
 		// clear history
 		while (history.length > 0)	history.pop();
 		PATH_COLOR = 0x457C9A;
@@ -92,7 +80,7 @@ class Game extends Sprite {
 		else {
 			from = new IntPoint(R.random(Std.int(map.width / STEP)) * STEP + Std.int(STEP / 2), R.random(Std.int(map.height / STEP)) * STEP + Std.int(STEP / 2));
 		}
-		map.setPixel(from.x, from.y, START_COLOR);
+		if (SHOW_POINTS)	map.setPixel(from.x, from.y, START_COLOR);
 		// start
 		step();
 	}
@@ -110,9 +98,6 @@ class Game extends Sprite {
 		history.push(from.clone());
 		
 		PATH_COLOR = Color.rgbToInt(Color.hue(Color.intToRgb(PATH_COLOR), 0.001));
-		
-		palette.setPixel(paletteIndex % palette.width, Math.floor(paletteIndex / palette.width), PATH_COLOR);
-		paletteIndex++;
 		
 		if (SPEED > 0)		Timer.delay(step, SPEED);
 		else				step();
@@ -133,11 +118,11 @@ class Game extends Sprite {
 		if (found) {
 			if (back) {
 				PATH_COLOR = map.getPixel(from.x, from.y);
-				map.setPixel(from.x, from.y, PATH_COLOR + 0x222222);
+				if (SHOW_POINTS)	map.setPixel(from.x, from.y, PATH_COLOR + 0x222222);
 			}
 			return point;
 		} else {
-			if (!back)	map.setPixel(from.x, from.y, END_COLOR);
+			if (!back && SHOW_POINTS)	map.setPixel(from.x, from.y, END_COLOR);
 			
 			if (!SINGLE_PATH && history.length > 0) {
 				from = history.pop();

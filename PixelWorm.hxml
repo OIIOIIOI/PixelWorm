@@ -1,6 +1,6 @@
 -cp src
 -cp ../../lib/trunk
 -swf bin/PixelWorm.swf
--swf-header 512:680:30:FFFFFF
+-swf-header 512:512:60:FFFFFF
 -swf-version 10.1
 -main Main
